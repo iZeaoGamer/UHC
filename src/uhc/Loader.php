@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace uhc;
 
-use pocketmine\player\GameMode;
-use pocketmine\player\Player;
+
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use uhc\command\GlobalMuteCommand;
 use uhc\command\HealCommand;
@@ -92,16 +92,16 @@ class Loader extends PluginBase
 
 	public function resetPlayer(Player $player, bool $fullReset = false): void
 	{
-		$player->getHungerManager()->setFood($player->getHungerManager()->getMaxFood());
+		$player->setFood($player->getMaxFood());
 		$player->setHealth($player->getMaxHealth());
-		$player->getXpManager()->setXpAndProgress(0, 0.0);
+		$player->setXpAndProgress(0, 0.0);
 		$player->getEffects()->clear();
 		$player->getInventory()->clearAll();
 		$player->getArmorInventory()->clearAll();
 		$player->getCursorInventory()->clearAll();
 		if($fullReset){
-			$player->teleport($player->getWorld()->getSafeSpawn());
-			$player->setGamemode(GameMode::SURVIVAL());
+			$player->teleport($player->getLevel()->getSafeSpawn());
+			$player->setGamemode(Player::SURVIVAL());
 		}
 	}
 }
