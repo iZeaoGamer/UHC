@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace uhc\game\player;
 
-use pocketmine\player\Player;
+use pocketmine\Player;
 
 /**
  * Handles the players that are present for the UHC, temporary, unlike PlayerSession.
