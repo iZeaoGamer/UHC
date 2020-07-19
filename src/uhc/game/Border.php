@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace uhc\game;
 
-use pocketmine\block\VanillaBlocks;
 use pocketmine\math\Vector3;
-use pocketmine\player\Player;
-use pocketmine\world\World;
+use pocketmine\Player;
+use pocketmine\level\Level as World;
 use muqsit\chunkloader\ChunkRegion;
+use pocketmine\block\Block;
 use function mt_rand;
 
 class Border
@@ -91,12 +91,12 @@ class Border
 			ChunkRegion::onChunkGenerated($this->world, $minX >> 4, $this->getZ() >> 4, function () use ($minX): void {
 				$highestBlock = $this->world->getHighestBlockAt($minX, $this->getZ());
 				for ($y = $highestBlock; $y <= $highestBlock + 4; $y++) {
-					$this->world->setBlock(new Vector3($minX, $y, $this->getZ()), VanillaBlocks::BEDROCK());
+					$this->world->setBlock(new Vector3($minX, $y, $this->getZ()), Block::BEDROCK());
 				}
 
 				$highestBlock = $this->world->getHighestBlockAt($minX, $this->getZ(true));
 				for ($y = $highestBlock; $y <= $highestBlock + 4; $y++) {
-					$this->world->setBlock(new Vector3($minX, $y, $this->getZ(true)), VanillaBlocks::BEDROCK());
+					$this->world->setBlock(new Vector3($minX, $y, $this->getZ(true)), Block::BEDROCK());
 				}
 			});
 		}
@@ -105,12 +105,12 @@ class Border
 			ChunkRegion::onChunkGenerated($this->world, $this->getX() >> 4, $minZ >> 4, function () use ($minZ): void {
 				$highestBlock = $this->world->getHighestBlockAt($this->getX(), $minZ);
 				for ($y = $highestBlock; $y <= $highestBlock + 4; $y++) {
-					$this->world->setBlock(new Vector3($this->getX(), $y, $minZ), VanillaBlocks::BEDROCK());
+					$this->world->setBlock(new Vector3($this->getX(), $y, $minZ), Block::BEDROCK());
 				}
 
 				$highestBlock = $this->world->getHighestBlockAt($this->getX(true), $minZ);
 				for ($y = $highestBlock; $y <= $highestBlock + 4; $y++) {
-					$this->world->setBlock(new Vector3($this->getX(true), $y, $minZ), VanillaBlocks::BEDROCK());
+					$this->world->setBlock(new Vector3($this->getX(true), $y, $minZ), Block::BEDROCK());
 				}
 			});
 		}
