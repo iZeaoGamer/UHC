@@ -62,6 +62,9 @@ class GameHeartbeat extends Task
 
     public function onRun(int $currentTick): void
     {
+        if(count($this->plugin->getGamePlayers()) <= 1){
+            return;
+        }
         $this->handlePlayers();
         switch ($this->getPhase()) {
             case PhaseChangeEvent::COUNTDOWN:
