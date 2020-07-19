@@ -6,7 +6,7 @@ namespace uhc\game;
 
 use jackmd\scorefactory\ScoreFactory;
 use pocketmine\math\Vector3;
-use pocketmine\player\Player;
+use pocketmine\Player;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\scheduler\Task;
 use pocketmine\utils\TextFormat as TF;
@@ -42,7 +42,7 @@ class GameHeartbeat extends Task
 	public function __construct(Loader $plugin)
 	{
 		$this->plugin = $plugin;
-		$this->border = new Border($plugin->getServer()->getWorldManager()->getDefaultWorld());
+		$this->border = new Border($plugin->getServer()->getDefaultLevel());
 	}
 
 	public function getPhase(): int
@@ -145,7 +145,7 @@ class GameHeartbeat extends Task
 				$server->broadcastTitle("The game will begin in " . TF::AQUA . "$this->countdown second(s).");
 				break;
 			case 0:
-				foreach ($server->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
+				foreach ($server->getDefaultLevel()->getEntities() as $entity) {
 					if (!$entity instanceof Player) {
 						$entity->flagForDespawn();
 					}
@@ -282,12 +282,12 @@ class GameHeartbeat extends Task
 	private function randomizeCoordinates(Player $p, int $range): void
 	{
 		$this->plugin->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($p, $range) : void {
-			$ss = $p->getWorld()->getSafeSpawn();
+			$ss = $p->getLevel()->getSafeSpawn();
 			$x = mt_rand($ss->getFloorX() - $range, $ss->getFloorX() + $range);
 			$z = mt_rand($ss->getFloorZ() - $range, $ss->getFloorZ() + $range);
 
-			ChunkRegion::onChunkGenerated($p->getWorld(), $x >> 4, $z >> 4, function () use ($p, $x, $z): void {
-				$p->teleport(new Vector3($x, $p->getWorld()->getHighestBlockAt($x, $z) + 1, $z));
+			ChunkRegion::onChunkGenerated($p->getLevel(), $x >> 4, $z >> 4, function () use ($p, $x, $z): void {
+				$p->teleport(new Vector3($x, $p->getLevel()->getHighestBlockAt($x, $z) + 1, $z));
 			});
 
 			$this->playerTimer += 5;
