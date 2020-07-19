@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace uhc\event;
 
 use pocketmine\event\Event;
-use pocketmine\player\Player;
+use pocketmine\Player;
 
 class PhaseChangeEvent extends Event
 {
